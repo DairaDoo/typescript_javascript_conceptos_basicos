@@ -32,7 +32,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
   // intentamos obtener la lista de pokemones con el get
     const response: PokemonResponse = await request.get<PokemonResponse>(
-      "pokemon?limit=10");
+      "/pokemon?limit=10");
 
     // obtenemos las imagenes
     for (const pokemon of response.results) {
