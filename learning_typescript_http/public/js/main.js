@@ -10,31 +10,25 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 document.addEventListener("DOMContentLoaded", () => __awaiter(void 0, void 0, void 0, function* () {
     const request = new Petition("https://pokeapi.co/api/v2/");
-    const listElement = document.getElementById("pokemon-list");
-    if (!listElement) {
-        console.error("No se encontró el contenedor de Pokémon en el HTML.");
-        return;
-    }
     try {
-        const response = yield request.get("pokemon?limit=10");
-        if (response.results && Array.isArray(response.results)) {
-            response.results.forEach((pokemon) => __awaiter(void 0, void 0, void 0, function* () {
-                const res = yield fetch(pokemon.url);
-                const pokemonData = yield res.json();
-                const listItem = document.createElement("li");
-                listItem.innerHTML = `
-                    <p>${pokemon.name.toUpperCase()}</p>
-                    <img src="${pokemonData.sprites.front_default}" alt="${pokemon.name}">
-                `;
-                listElement.appendChild(listItem);
-            }));
+        const listElement = document.getElementById("pokemon-list");
+        if (!listElement) {
+            console.error("No se encontro ningún pokemon.");
+            return;
         }
-        else {
-            listElement.innerHTML = "<p>No se encontraron Pokémon.</p>";
+        const response = yield request.get("pokemon?limit=10");
+        console.log(response);
+        for (const pokemon of response.results) {
+            const pokemonData = yield request.get(pokemon.url);
+            const listItem = document.createElement("li");
+            listItem.innerHTML = `
+            <p>${pokemon.name.toUpperCase()}</p>
+            <img src="${pokemonData.sprites.front_default}" alt="${pokemon.name}">
+        `;
+            listElement.appendChild(listItem);
         }
     }
     catch (error) {
-        console.error("Error fetching Pokémon: ", error);
-        listElement.innerHTML = "<p>Error al cargar los Pokémon.</p>";
+        console.error("Error fetching pokemon: ", error);
     }
 }));

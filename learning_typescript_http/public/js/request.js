@@ -9,7 +9,7 @@ class Petition {
         this.baseUrl = baseUrl;
     }
     request(url, method = "POST", data = null) {
-        url = `${this.baseUrl}${url}`;
+        url = url.startsWith("http") ? url : `${this.baseUrl}${url}`;
         const options = { headers: this.headers, method };
         if (data)
             options.body = JSON.stringify(Object.assign({}, data));
